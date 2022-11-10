@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "sa.h"
 
 int main(int argc, char const *argv[])
 {
@@ -12,6 +13,10 @@ int main(int argc, char const *argv[])
     }
     if (strcmp("-p", argv[1]) == 0)
     {
+
+        struct FastaContainer fastaContainer = parse_fasta();
+        int **SAs = constructMultipleSARadix(fastaContainer);
+
         // preprocessing
         printf("Preprocessing genome %s\n", argv[2]);
     }
