@@ -6,8 +6,8 @@ struct Range {
     int end;
 };
 
-int oLookUp(int** o, char searchChar, int i);
-int jump(int bwtIndex, char jumpChar, int* c, int** o);
-struct Range* rotateString(char* string, int stringLen, int* c, int** o, char* bwt, int btwLen);
+int oLookUp(int** o, int searchChar, int i);
+int jump(int bwtIndex, int jumpChar, int* c, int** o);
+struct Range* rotateString(const int* string, int stringLen, int* c, int** o, int btwLen);
 
 #endif

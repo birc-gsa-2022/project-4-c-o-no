@@ -126,14 +126,14 @@ MU_TEST(test_binary_search) {
 }
 
 
-void run_all_fasta_parser_tests() {
+void run_all_tests() {
     MU_RUN_TEST(test_binary_search);
     MU_RUN_TEST(test_search_abc);
     MU_RUN_TEST(test_search_multiple_sa_constr);
 }
 
 MU_TEST_SUITE(fasta_parser_test_suite) {
-    run_all_fasta_parser_tests();
+    run_all_tests();
 }
 
 int main(int argc, char *argv[]) {
