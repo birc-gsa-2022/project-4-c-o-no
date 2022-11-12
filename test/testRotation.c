@@ -6,6 +6,7 @@
 int** oMis;
 int cMis[5] = {0, 1, 5,6,8};
 char* bwtMis = "134420314411";
+int lenMis = 12;
 
 void test_setup(void) {
     oMis = malloc(4*sizeof(** oMis));
@@ -36,6 +37,7 @@ MU_TEST(lookup) {
 
     mu_assert_int_eq(1, oLookUp(o, 3, 4)); //c4
 
+    int** oMisForce = oMis; //TODO Why does the test not work without this?
     mu_assert_int_eq(1, oLookUp(oMis, 3, 6));
     mu_assert_int_eq(2, oLookUp(oMis, 3, 7));
     mu_assert_int_eq(0, oLookUp(oMis, 2, 4));
@@ -51,7 +53,7 @@ MU_TEST(test_jump) {
 
 MU_TEST(test_rotateString) {
     char* ssi = "441";
-    struct Range* rotation = rotateString(ssi, 3, cMis, oMis, bwtMis);
+    struct Range* rotation = rotateString(ssi, 3, cMis, oMis, bwtMis, lenMis);
     mu_assert_int_eq(10, rotation->start);
     mu_assert_int_eq(12, rotation->end);
 
