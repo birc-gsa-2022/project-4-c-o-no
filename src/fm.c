@@ -80,7 +80,6 @@ int main(int argc, char const *argv[])
 
         struct ReadContainer *read_container = makeReadContainer(readString);
 
-
         while(*processString != '\0') {
             fastaHead = processString;
             while (*(++processString) != '\n') {}
