@@ -25,7 +25,7 @@ MU_TEST(lookup) {
     //int a[6] = {1,2,2,2,2,3};
     //int b[6] = {0,0,1,1,1,1};
     //int c[6] = {0,0,0,1,2,2};
-    int** o = malloc(5*sizeof(** o));
+    int** o = malloc(5*sizeof(*o));
     o[0] = row1;
     o[1] = row2;
     o[2] = row3;
