@@ -61,3 +61,31 @@ void write_to_file(FILE* fpt, char* content, int len) {
         fprintf(fpt, "%c", *(content++));
     }
 }
+
+struct ReadContainer* makeReadContainer(char* readString) {
+    struct ReadContainer* rc = malloc(sizeof *rc);
+
+    int listSize = 1;
+    int* patLens = malloc(listSize*sizeof *patLens);
+    char** heads = malloc(listSize*sizeof *heads);
+    char** patterns = malloc(listSize*sizeof *patterns);
+
+    int count = 0;
+    while (*readString != '\0') {
+        if(count>=listSize) {
+            listSize <<= 1;
+            patLens = realloc(patLens, listSize*sizeof *patLens);
+            heads = realloc(heads, listSize*sizeof *patLens);
+            patterns = realloc(patterns, listSize*sizeof *patLens);
+        }
+        heads[count] = read_fastq_head(&readString);
+        patterns[count] = read_fastq_pattern(&readString);
+        patLens[count] = (int) strlen(patterns[count]); // TODO in parsing
+        count++;
+    }
+    rc->count=count;
+    rc->patterns=patterns;
+    rc->heads=heads;
+    rc->patLens=patLens;
+    return rc;
+}
