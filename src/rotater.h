@@ -8,6 +8,7 @@ struct Range {
 
 int oLookUp(int** o, int searchChar, int i);
 int jump(int bwtIndex, int jumpChar, int* c, int** o);
-struct Range* rotateString(const int* string, int stringLen, int* c, int** o, int btwLen);
+void rotateString(const int* string, int stringLen, int* c, int** o, int btwLen, struct Range* r);
+void makeOandC(const int* string, int n, int** O, int* C, int alphabetSize);
 
 #endif

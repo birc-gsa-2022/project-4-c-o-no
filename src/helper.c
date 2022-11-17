@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include "parsers/simple-fastq-parser.h"
 
 void printIntArray(int * a, int len) {
     printf("[");
