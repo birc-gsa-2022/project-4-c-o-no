@@ -65,7 +65,7 @@ void write_to_file(FILE* fpt, char* content, int len) {
 struct ReadContainer* makeReadContainer(char* readString) {
     struct ReadContainer* rc = malloc(sizeof *rc);
 
-    int listSize = 1;
+    int listSize = 10000; // Todo - small listSize breaks everything
     int* patLens = malloc(listSize*sizeof *patLens);
     char** heads = malloc(listSize*sizeof *heads);
     char** patterns = malloc(listSize*sizeof *patterns);
@@ -83,6 +83,7 @@ struct ReadContainer* makeReadContainer(char* readString) {
         patLens[count] = (int) strlen(patterns[count]); // TODO in parsing
         count++;
     }
+
     rc->count=count;
     rc->patterns=patterns;
     rc->heads=heads;

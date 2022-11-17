@@ -1,11 +1,23 @@
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
+#include <stdlib.h>
 #include "sa.h"
 #include "helper.h"
 #include "rotater.h"
 #include "parsers/simple-fasta-parser.h"
 #include "parsers/simple-fastq-parser.h"
+
+/*
+ *
+ * Dear traveller.
+ * Take this to debug:
+ *      int* a;
+        a= malloc(sizeof(int));
+        return 0;
+ *
+ */
+
 
 int main(int argc, char const *argv[])
 {
@@ -86,6 +98,9 @@ int main(int argc, char const *argv[])
             if(*(processString-1) == '\r') {
                 *(processString-1) = '\0';
             }
+            else {
+                *(processString) = '\0';
+            }
 
             processString++;
             n = atoi(processString); //atoi stops at first non-int
@@ -96,6 +111,7 @@ int main(int argc, char const *argv[])
             //bwt
             //TODO could make each symbol distinguable without ,
             //TODO Don't make bwt, go directly to O and C
+
             bwt = malloc(n * sizeof *bwt);
             for(int i=0; i<n; i++) {
                 bwt[i] = atoi(processString);
