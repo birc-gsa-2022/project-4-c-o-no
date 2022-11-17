@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include <stdlib.h>
 #include "parsers/simple-fastq-parser.h"
 
 void printIntArray(int * a, int len) {
@@ -65,7 +66,7 @@ void write_to_file(FILE* fpt, char* content, int len) {
 struct ReadContainer* makeReadContainer(char* readString) {
     struct ReadContainer* rc = malloc(sizeof *rc);
 
-    int listSize = 10000; // Todo - small listSize breaks everything
+    int listSize = 8;
     int* patLens = malloc(listSize*sizeof *patLens);
     char** heads = malloc(listSize*sizeof *heads);
     char** patterns = malloc(listSize*sizeof *patterns);
@@ -75,8 +76,8 @@ struct ReadContainer* makeReadContainer(char* readString) {
         if(count>=listSize) {
             listSize <<= 1;
             patLens = realloc(patLens, listSize*sizeof *patLens);
-            heads = realloc(heads, listSize*sizeof *patLens);
-            patterns = realloc(patterns, listSize*sizeof *patLens);
+            heads = realloc(heads, listSize*sizeof *heads);
+            patterns = realloc(patterns, listSize*sizeof *patterns);
         }
         heads[count] = read_fastq_head(&readString);
         patterns[count] = read_fastq_pattern(&readString);
