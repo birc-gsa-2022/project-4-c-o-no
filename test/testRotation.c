@@ -3,31 +3,10 @@
 #include "testHelper.h"
 #include "../src/rotater.h"
 
-int** oMis;
-int cMis[5] = {0, 1, 5,6,8};
 int lenMis = 12;
 
 void test_setup(void) {
-    //TODO How to do setup? Not like this
-    //int** oMis= malloc(4*sizeof(* oMis));
-    int i[12] = {1,1,1,1,1,1,1,2,2,2,3,4};
-    int m[12] = {0,0,0,0,1,1,1,1,1,1,1,1};
-    int p[12] = {0,1,1,1,1,1,2,2,2,2,2,2};
-    int s[12] = {0,0,1,2,2,2,2,2,3,4,4,4};
-    //oMis[0] = i;
-    //oMis[1] = m;
-    //oMis[2] = p;
-    //oMis[3] = s;
 
-    oMis = malloc(12*sizeof (*oMis));
-    for(int j=0; j<12; j++) {
-        int* row = malloc(4*sizeof (*row));
-        row[0] = i[j];
-        row[1] = m[j];
-        row[2] = p[j];
-        row[3] = s[j];
-        oMis[j] = row;
-    }
 }
 
 void test_teardown(void) {
@@ -59,7 +38,7 @@ MU_TEST(lookup) {
     int m[12] = {0,0,0,0,1,1,1,1,1,1,1,1};
     int p[12] = {0,1,1,1,1,1,2,2,2,2,2,2};
     int s[12] = {0,0,1,2,2,2,2,2,3,4,4,4};
-        oMis = malloc(12*sizeof (*oMis));
+    int **oMis = malloc(12*sizeof (*oMis));
     for(int j=0; j<12; j++) {
         int* row = malloc(4*sizeof (*row));
         row[0] = i[j];
@@ -78,6 +57,20 @@ MU_TEST(lookup) {
 }
 
 MU_TEST(test_jump) {
+    int cMis[5] = {0, 1, 5,6,8};
+    int i[12] = {1,1,1,1,1,1,1,2,2,2,3,4};
+    int m[12] = {0,0,0,0,1,1,1,1,1,1,1,1};
+    int p[12] = {0,1,1,1,1,1,2,2,2,2,2,2};
+    int s[12] = {0,0,1,2,2,2,2,2,3,4,4,4};
+    int **oMis = malloc(12*sizeof (*oMis));
+    for(int j=0; j<12; j++) {
+        int* row = malloc(4*sizeof (*row));
+        row[0] = i[j];
+        row[1] = m[j];
+        row[2] = p[j];
+        row[3] = s[j];
+        oMis[j] = row;
+    }
     int jumpPoint = jump(0, 1, cMis, oMis);
     mu_assert_int_eq(1, jumpPoint);
 }
@@ -87,7 +80,7 @@ MU_TEST(test_rotateString) {
     int m[12] = {0,0,0,0,1,1,1,1,1,1,1,1};
     int p[12] = {0,1,1,1,1,1,2,2,2,2,2,2};
     int s[12] = {0,0,1,2,2,2,2,2,3,4,4,4};
-    oMis = malloc(12*sizeof (*oMis));
+    int** oMis = malloc(12*sizeof (*oMis));
     for(int j=0; j<12; j++) {
         int* row = malloc(4*sizeof (*row));
         row[0] = i[j];
@@ -98,6 +91,7 @@ MU_TEST(test_rotateString) {
     }
 
 
+    int cMis[5] = {0, 1, 5,6,8};
 
     int ssi[3] = {4, 4, 1};
     struct Range* rotation = malloc(sizeof *rotation);
