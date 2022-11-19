@@ -31,7 +31,6 @@ char *read_file(const char *file_name) {
 
     char *string = malloc(fsize + 1);
     fread(string, fsize, 1, fp);
-    fclose(fp);
 
     string[fsize] = '\0'; // terminate with zero
     fclose(fp);
