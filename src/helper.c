@@ -188,7 +188,7 @@ void readFromProcessed(char *processString, char* readString) {
             int start = saRange->start;
             int end = saRange->end;
             for(int i=start; i<end; i++) {
-                //printf("%s\t%s\t%d\t%dM\t%s\n", readHead, fastaHead, sa[i]+1, pattern_len, pattern);
+                printf("%s\t%s\t%d\t%dM\t%s\n", readHead, fastaHead, sa[i]+1, pattern_len, pattern);
             }
         }
 
