@@ -224,6 +224,7 @@ src/helper.c.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing1.dir/build.make CMakeFiles/testing1.dir/src/helper.c.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing2.dir/build.make CMakeFiles/testing2.dir/src/helper.c.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testRotate.dir/build.make CMakeFiles/testRotate.dir/src/helper.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/time.dir/build.make CMakeFiles/time.dir/src/helper.c.obj
 .PHONY : src/helper.c.obj
 
 src/helper.i: src/helper.c.i
@@ -235,6 +236,7 @@ src/helper.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing1.dir/build.make CMakeFiles/testing1.dir/src/helper.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing2.dir/build.make CMakeFiles/testing2.dir/src/helper.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testRotate.dir/build.make CMakeFiles/testRotate.dir/src/helper.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/time.dir/build.make CMakeFiles/time.dir/src/helper.c.i
 .PHONY : src/helper.c.i
 
 src/helper.s: src/helper.c.s
@@ -246,6 +248,7 @@ src/helper.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing1.dir/build.make CMakeFiles/testing1.dir/src/helper.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing2.dir/build.make CMakeFiles/testing2.dir/src/helper.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testRotate.dir/build.make CMakeFiles/testRotate.dir/src/helper.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/time.dir/build.make CMakeFiles/time.dir/src/helper.c.s
 .PHONY : src/helper.c.s
 
 src/parsers/simple-fasta-parser.obj: src/parsers/simple-fasta-parser.c.obj
@@ -326,7 +329,10 @@ src/rotater.obj: src/rotater.c.obj
 # target to build an object file
 src/rotater.c.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fm.dir/build.make CMakeFiles/fm.dir/src/rotater.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing1.dir/build.make CMakeFiles/testing1.dir/src/rotater.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing2.dir/build.make CMakeFiles/testing2.dir/src/rotater.c.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testRotate.dir/build.make CMakeFiles/testRotate.dir/src/rotater.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/time.dir/build.make CMakeFiles/time.dir/src/rotater.c.obj
 .PHONY : src/rotater.c.obj
 
 src/rotater.i: src/rotater.c.i
@@ -335,7 +341,10 @@ src/rotater.i: src/rotater.c.i
 # target to preprocess a source file
 src/rotater.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fm.dir/build.make CMakeFiles/fm.dir/src/rotater.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing1.dir/build.make CMakeFiles/testing1.dir/src/rotater.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing2.dir/build.make CMakeFiles/testing2.dir/src/rotater.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testRotate.dir/build.make CMakeFiles/testRotate.dir/src/rotater.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/time.dir/build.make CMakeFiles/time.dir/src/rotater.c.i
 .PHONY : src/rotater.c.i
 
 src/rotater.s: src/rotater.c.s
@@ -344,7 +353,10 @@ src/rotater.s: src/rotater.c.s
 # target to generate assembly for a file
 src/rotater.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fm.dir/build.make CMakeFiles/fm.dir/src/rotater.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing1.dir/build.make CMakeFiles/testing1.dir/src/rotater.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testing2.dir/build.make CMakeFiles/testing2.dir/src/rotater.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testRotate.dir/build.make CMakeFiles/testRotate.dir/src/rotater.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/time.dir/build.make CMakeFiles/time.dir/src/rotater.c.s
 .PHONY : src/rotater.c.s
 
 src/sa.obj: src/sa.c.obj

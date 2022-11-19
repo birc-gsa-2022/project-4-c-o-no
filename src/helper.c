@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "parsers/simple-fastq-parser.h"
+#include "parsers/simple-fasta-parser.h"
+#include "rotater.h"
 
 void printIntArray(int * a, int len) {
     printf("[");
@@ -21,8 +23,7 @@ void printString(char * a, int len) {
 }
 
 char *read_file(const char *file_name) {
-    FILE *fp;
-    fp = fopen(file_name, "rb");
+    FILE * fp = fopen(file_name, "rb");
 
     fseek(fp, 0, SEEK_END);
     long fsize = ftell(fp);
@@ -33,13 +34,12 @@ char *read_file(const char *file_name) {
     fclose(fp);
 
     string[fsize] = '\0'; // terminate with zero
+    fclose(fp);
     return string;
 }
 
 FILE* get_file(const char* file_name) {
-    FILE *fpt;
-    fpt = fopen(file_name, "w+");
-    return fpt;
+    return fopen(file_name, "w+");
 }
 
 char* get_file_name_by_fa(const char* faName) {
@@ -90,4 +90,115 @@ struct ReadContainer* makeReadContainer(char* readString) {
     rc->heads=heads;
     rc->patLens=patLens;
     return rc;
+}
+
+
+void processFastas(FILE* processFile, struct FastaContainer* fastaContainer, int** SAs) {
+    for(int i=0; i<fastaContainer->numberOfFastas; i++) {
+        struct Fasta* fasta = fastaContainer->fastas[i];
+        fprintf(processFile, "%s\n", fasta->fasta_head); //Save head
+        fprintf(processFile, "%d\n", fasta->fasta_len); //Save length
+        fprintf(processFile, "%d\n", fasta->alphabet.size); //Save alphabetsize
+        for(int j=0; j<fasta->fasta_len; j++) { //Save bwt
+            //TODO We can change this to compress, but not nesasary
+            fprintf(processFile, "%d,", SAs[i][j] ? fasta->fasta_sequence[SAs[i][j]-1] : 0);
+        }
+        fprintf(processFile, "\n");
+        for(int j=0; j<fasta->fasta_len; j++) { //Save sa
+            fprintf(processFile, "%d,", SAs[i][j]);
+        }
+        fprintf(processFile, "\n");
+
+        for(int j=0; j<128; j++) {
+            //TODO do in parser
+            if(fasta->alphabet.symbols[j]) fprintf(processFile, "%c", j);
+        }
+        fprintf(processFile, "\n");
+
+        free(SAs[i]);
+    }
+}
+
+
+void readFromProcessed(char *processString, char* readString) {
+    struct Range* saRange = malloc(sizeof *saRange);
+    struct ReadContainer *read_container = makeReadContainer(readString);
+
+    while(*processString != '\0') {
+        char *fastaHead = processString;
+        while (*(++processString) != '\n') {}
+        if(*(processString-1) == '\r') {
+            *(processString-1) = '\0';
+        }
+        else {
+            *(processString) = '\0';
+        }
+
+        processString++;
+        int n = atoi(processString); //atoi stops at first non-int
+        while(*(processString++) != '\n') {}
+        int alphabetSize = atoi(processString);
+        while(*(processString++) != '\n') {}
+
+        //bwt
+        //TODO could make each symbol distinguable without ,
+        //TODO Don't make bwt, go directly to O and C
+
+        int *bwt = malloc(n * sizeof *bwt);
+        for(int i=0; i<n; i++) {
+            bwt[i] = atoi(processString);
+            while(*(processString++) != ',') {}
+        }
+        int **O = malloc(n*sizeof (*O));
+        int* C = calloc(alphabetSize, sizeof *C);
+        makeOandC(bwt, n, O, C, alphabetSize);
+
+        while(*(processString++) != '\n') {}
+
+        //sa
+        int *sa = malloc(n * sizeof *sa);
+        for(int i=0; i<n; i++) {
+            sa[i] = atoi(processString);
+            int a = sa[i];
+            while(*(processString++) != ',') {}
+        }
+
+        while(*(processString++) != '\n') {}
+
+        int *alphabet = calloc(128, sizeof *alphabet);
+        for(int i=0; i<alphabetSize-1; i++) {
+            alphabet[*(processString++)] = i+1;
+        }
+
+
+
+        for (int j = 0; j < read_container->count; j++) {
+            char *readHead = read_container->heads[j];
+            char *pattern = read_container->patterns[j];
+            int pattern_len = read_container->patLens[j];
+
+            int *patternConvert = malloc(pattern_len*sizeof *patternConvert);
+            for(int i=0; i<pattern_len; i++) {
+                patternConvert[i] = alphabet[pattern[i]];
+            }
+
+            rotateString(patternConvert, pattern_len, C, O, n, saRange);
+            free(patternConvert);
+
+            int start = saRange->start;
+            int end = saRange->end;
+            for(int i=start; i<end; i++) {
+                //printf("%s\t%s\t%d\t%dM\t%s\n", readHead, fastaHead, sa[i]+1, pattern_len, pattern);
+            }
+        }
+
+        while(*(processString++) != '\n') {}
+
+        for(int i=0; i<n; i++) {
+            free(O[i]);
+        }
+        free(O);
+        free(C);
+        free(sa);
+    }
 }
