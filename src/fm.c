@@ -4,19 +4,8 @@
 #include <stdlib.h>
 #include "sa.h"
 #include "helper.h"
-#include "rotater.h"
 #include "parsers/simple-fasta-parser.h"
 #include "parsers/simple-fastq-parser.h"
-
-/*
- *
- * Dear traveller.
- * Take this to debug:
- *      int* a;
-        a= malloc(sizeof(int));
-        return 0;
- *
- */
 
 
 int main(int argc, char const *argv[])

@@ -3,24 +3,22 @@
 #include "../src/parsers/simple-fasta-parser.h"
 #include "../src/helper.h"
 #include "../src/sa.h"
-#include "../src/fm.h"
 #include "../src/rotater.h"
 #include <sys/time.h>
-#include <math.h>
-#define FPA 33
+#define FPA 32
 #define LPA 126
 #define headerBufferSizeFasta 6
 #define headerBufferSizeFastq 5
 
 //Change for different tests:
-#define maxN 1000000
-#define minN 10000
-#define stepN 10000
-#define minM 10000
-#define stepM 10000
-#define alphabetSize 1
-#define TIMEFILENAMEPROCESS "timingProcess.csv"
-#define TIMEFILENAMESEARCH "timingSearch.csv"
+#define maxN 100000
+#define minN 1000
+#define stepN 1000
+#define minM 1000
+#define stepM 1000
+#define alphabetSize 90
+#define TIMEFILENAMEPROCESS "timingProcess4.csv"
+#define TIMEFILENAMESEARCH "timingSearch4.csv"
 
 
 char * getPattern(int m, char* p) {
@@ -111,24 +109,33 @@ int *generateBwt(int n) {
     int *bwt = malloc((n+1) * sizeof *bwt);
     int numOfBlocks = n / alphabetSize;
     int lastBlockSize = n%alphabetSize;
-    bwt[0] = lastBlockSize ? lastBlockSize : alphabetSize; //Char before sentinel
-    int endOfFirstRepetion = numOfBlocks + (n % alphabetSize > 0);
-    for (int i = 1; i < endOfFirstRepetion; i++) {
-        bwt[i] = alphabetSize;
-    }
-    bwt[endOfFirstRepetion] = 0;
-
-    int repetionStart = endOfFirstRepetion+1;
-    int currChar = 1;
-    while(repetionStart<n+1){
-        //Fill
-        int inLastBlock = (currChar<=lastBlockSize) - (currChar == bwt[0]);
-        for(int i=0; i < numOfBlocks + inLastBlock; i++) {
-            bwt[repetionStart+i] = currChar;
+    if(numOfBlocks>0){
+        bwt[0] = lastBlockSize ? lastBlockSize : alphabetSize; //Char before sentinel
+        int endOfFirstRepetion = numOfBlocks + (n % alphabetSize > 0);
+        for (int i = 1; i < endOfFirstRepetion; i++) {
+            bwt[i] = alphabetSize;
         }
-        //Jump based on size of repetion
-        repetionStart += numOfBlocks + inLastBlock;
-        currChar++;
+        bwt[endOfFirstRepetion] = 0;
+
+        int repetionStart = endOfFirstRepetion+1;
+        int currChar = 1;
+        while(repetionStart<n+1){
+            //Fill
+            int inLastBlock = (currChar<=lastBlockSize) - (currChar == bwt[0]);
+            for(int i=0; i < numOfBlocks + inLastBlock; i++) {
+                bwt[repetionStart+i] = currChar;
+            }
+            //Jump based on size of repetion
+            repetionStart += numOfBlocks + inLastBlock;
+            currChar++;
+        }
+    }
+    else {
+        bwt[0] = lastBlockSize;
+        bwt[1] = 0;
+        for(int i=2; i<n+1; i++) {
+            bwt[i] = i-1;
+        }
     }
 
     return bwt;
@@ -181,7 +188,7 @@ int main() {
     fprintf(resfileProcess,"n,parseTime,SATime,ProcessTime,σ\n");
 
     char *x = malloc((sizeof *x)*(maxN + headerBufferSizeFasta));
-    for(int n=minN; n<maxN; n+=stepN) {
+    for(int n=minN; n<maxN+1; n+=stepN) {
         fprintf(resfileProcess, "%d,", n);
         genLetters(n, x, '>');
         struct FastaContainer* fc = timeParseFasta(resfileProcess, x);
@@ -192,15 +199,15 @@ int main() {
     fclose(processFileProcess);
 
     FILE* resfileSearch = fopen(TIMEFILENAMESEARCH, "w+");
-    fprintf(resfileSearch,"m,processTime,SearchTime,n,σ\n");
+    fprintf(resfileSearch,"m,processTime,SearchTime,maxn,minn,step,σ\n");
 
     char *readString = malloc((sizeof *readString)*(maxN+headerBufferSizeFastq));
 
-    for(int m=minM; m<maxN; m+=stepM) {
+    for(int m=minM; m<maxN+1; m+=stepM) {
         fprintf(resfileSearch, "%d,", m);
         genLetters(m, readString, '@');
         timeReadProcessedFile(readString, resfileSearch);
         timeRotation(m, readString, maxN, resfileSearch);
-        fprintf(resfileSearch, "%d,%d\n", maxN,alphabetSize);
+        fprintf(resfileSearch, "%d,%d,%d,%d\n", maxN,minN,stepN, alphabetSize);
     }
 }
