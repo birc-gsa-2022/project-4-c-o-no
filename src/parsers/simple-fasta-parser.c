@@ -84,9 +84,9 @@ void update_fasta_by_sequence(char **strptr, struct Fasta *f) {
         string[l] = (char) bigAlphabet[string[l]];
     }
 
-    f->alphabet.size = alphabetSize;
-    f->alphabet.symbols = bigAlphabet;
-    f->alphabet.sightings = sightings;
+    f->alphabet->size = alphabetSize;
+    f->alphabet->symbols = bigAlphabet;
+    f->alphabet->sightings = sightings;
     f->fasta_sequence = string;
     f->fasta_len = i+1;
     f->fasta_sequence_debugger = debugger;
@@ -94,6 +94,7 @@ void update_fasta_by_sequence(char **strptr, struct Fasta *f) {
 
 
 struct FastaContainer *parse_fasta(char *fasta_str) {
+    //TODO remove magic
     struct Fasta **fastas = malloc(magic_number*sizeof (**fastas));
     int i = 0;
     while (fasta_str[0] != '\0') {
@@ -110,11 +111,27 @@ struct FastaContainer *parse_fasta(char *fasta_str) {
     return fastaCont;
 }
 
+void free_alphabet(struct Alphabet *a)
+{
+    free(a->symbols);
+    free(a->sightings);
+}
+
+void free_fasta(struct Fasta *f)
+{
+    free(f->fasta_head);
+    free(f->fasta_sequence);
+    free(f->fasta_sequence_debugger);
+    free_alphabet(f->alphabet);
+    free(f->alphabet);
+}
+
 void free_fastas(struct Fasta **fastas, int count) {
     for (int i = 0; i < count; ++i) {
-        free(fastas[i]->alphabet.symbols);
-        free(fastas[i]->alphabet.sightings);
-        free(fastas[i]);
+        free_fasta(fastas[i]);
+        //free(fastas[i]->alphabet.symbols);
+        //free(fastas[i]->alphabet.sightings);
+        //free(fastas[i]);
     }
 }
 

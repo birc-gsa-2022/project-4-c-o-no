@@ -19,5 +19,6 @@ FILE* get_file(const char* file_name);
 struct ReadContainer* makeReadContainer(char* readString);
 void processFastas(FILE* processFile, struct FastaContainer* fastaContainer, int** SAs);
 void readFromProcessed(char *processString, char* readString);
+void freeReadContainer(struct ReadContainer* read_container);
 
 #endif //HELPER_H
