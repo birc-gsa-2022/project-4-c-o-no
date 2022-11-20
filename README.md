@@ -67,10 +67,10 @@ Preprocessing can be done in O(n) by using faster SA algorithms.
 Below, we look at the processing time, which we here define as the time for converting SA to bwt and writing the preprocessing to file. It follows O(n). 
 Since parsing, as shown in earliere handins, runs in O(n) and SA can run in O(n), this is the expected. 
 
-![](test/plots/ProcessTime.png)
+![](plots/ProcessTime.png)
 
 Reading from the preprocessed file takes O(n). Making the O table takes O(σn).
 Ignoring this, search takes O(m). When we parse the fasta, we convert the alphabet of the sequence, such that each char can be used as an index. 
 For us to be able to search for the pattern we need to convert it too, which is done in O(m) time. Then we search in O(m) time. We have plottet the time for convertion and searching below. 
 
-![](test/plots/rotateString.png)
+![](plots/rotateString.png)
