@@ -43,17 +43,17 @@ FILE* get_file(const char* file_name) {
 
 char* get_file_name_by_fa(const char* faName) {
     size_t nameLen = strlen(faName)-2;
-    char* processingFileName = malloc((nameLen+4)*sizeof(* processingFileName));
+    char* processingFileName = malloc(nameLen+4);
     strcpy(processingFileName, faName);
-    processingFileName[nameLen] = 't';
-    processingFileName[nameLen+1] = 'x';
-    processingFileName[nameLen+2] = 't';
-    processingFileName[nameLen+3] = '\0';
+    strcpy(processingFileName+nameLen, "txt");
     return processingFileName;
 }
 
 FILE* get_file_by_fa(const char* faName) {
-    return get_file(get_file_name_by_fa(faName));
+    char* fileName = get_file_name_by_fa(faName);
+    FILE* file = get_file(fileName);
+    free(fileName);
+    return file;
 }
 
 void write_to_file(FILE* fpt, char* content, int len) {

@@ -26,9 +26,10 @@ int main(int argc, char const *argv[])
     {
         // preprocessing
         //printf("Preprocessing genome %s\n", argv[2]);
+        char* fasta_str = read_file(argv[2]);
         char* processFileName = get_file_name_by_fa(argv[2]);
         FILE* processFile = get_file(processFileName);
-        char* fasta_str = read_file(argv[2]);
+        free(processFileName);
         char* fasta_str_start = fasta_str;
         struct FastaContainer* fastaContainer = parse_fasta(fasta_str);
         int** SAs = constructMultipleSARadix(fastaContainer);
@@ -42,8 +43,11 @@ int main(int argc, char const *argv[])
     {
         char* processFileName = get_file_name_by_fa(argv[1]);
         char* processString = read_file(processFileName);
+        free(processFileName);
         char* readString = read_file(argv[2]);
         readFromProcessed(processString, readString);
+        free(processString);
+        free(readString);
     }
     return 0;
 }
