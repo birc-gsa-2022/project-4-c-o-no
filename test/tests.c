@@ -24,8 +24,8 @@ MU_TEST(test_parser_abc) {
     update_fasta_by_sequence(&mal, f);
 
     mu_assert_int_eq(4, f->fasta_len);
-    mu_assert_int_eq(4, f->alphabet->size);
-    for(int i = 0; i<4; i++) mu_assert_int_eq(1, f->alphabet->sightings[i]);
+    mu_assert_int_eq(4, f->alphabet.size);
+    for(int i = 0; i<4; i++) mu_assert_int_eq(1, f->alphabet.sightings[i]);
 
     mu_assert_int_eq(1, f->fasta_sequence[0]);
     mu_assert_int_eq(2, f->fasta_sequence[1]);
@@ -37,9 +37,9 @@ MU_TEST(test_parser_abc) {
     mu_assert_int_eq('C', f->fasta_sequence_debugger[2]);
     mu_assert_int_eq('\0', f->fasta_sequence_debugger[3]);
 
-    mu_assert_int_eq(1, f->alphabet->symbols['A']);
-    mu_assert_int_eq(2, f->alphabet->symbols['B']);
-    mu_assert_int_eq(3, f->alphabet->symbols['C']);
+    mu_assert_int_eq(1, f->alphabet.symbols['A']);
+    mu_assert_int_eq(2, f->alphabet.symbols['B']);
+    mu_assert_int_eq(3, f->alphabet.symbols['C']);
 
 }
 
@@ -52,9 +52,9 @@ MU_TEST(test_parser_aaaa) {
     update_fasta_by_sequence(&mal, f);
 
     mu_assert_int_eq(5, f->fasta_len);
-    mu_assert_int_eq(2, f->alphabet->size);
-    mu_assert_int_eq(1, f->alphabet->sightings[0]);
-    mu_assert_int_eq(4, f->alphabet->sightings[1]);
+    mu_assert_int_eq(2, f->alphabet.size);
+    mu_assert_int_eq(1, f->alphabet.sightings[0]);
+    mu_assert_int_eq(4, f->alphabet.sightings[1]);
 }
 
 MU_TEST(test_parser_aLong) {
@@ -65,9 +65,9 @@ MU_TEST(test_parser_aLong) {
     update_fasta_by_sequence(&mal, f);
 
     mu_assert_int_eq(101, f->fasta_len);
-    mu_assert_int_eq(2, f->alphabet->size);
-    mu_assert_int_eq(1, f->alphabet->sightings[0]);
-    mu_assert_int_eq(100, f->alphabet->sightings[1]);
+    mu_assert_int_eq(2, f->alphabet.size);
+    mu_assert_int_eq(1, f->alphabet.sightings[0]);
+    mu_assert_int_eq(100, f->alphabet.sightings[1]);
 }
 
 MU_TEST(test_parser_mis) {

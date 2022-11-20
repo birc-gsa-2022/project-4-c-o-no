@@ -62,17 +62,6 @@ void write_to_file(FILE* fpt, char* content, int len) {
     }
 }
 
-void freeReadContainer(struct ReadContainer* rc){
-    /* This is freed elsewhere
-    for(int i=0; i<rc->count; i++) {
-        free(rc->patterns[i]);
-        free(rc->heads[i]);
-    }*/
-    free(rc->heads);
-    free(rc->patterns);
-    free(rc->patLens);
-}
-
 struct ReadContainer* makeReadContainer(char* readString) {
     struct ReadContainer* rc = malloc(sizeof *rc);
 
@@ -108,7 +97,7 @@ void processFastas(FILE* processFile, struct FastaContainer* fastaContainer, int
         struct Fasta* fasta = fastaContainer->fastas[i];
         fprintf(processFile, "%s\n", fasta->fasta_head); //Save head
         fprintf(processFile, "%d\n", fasta->fasta_len); //Save length
-        fprintf(processFile, "%d\n", fasta->alphabet->size); //Save alphabetsize
+        fprintf(processFile, "%d\n", fasta->alphabet.size); //Save alphabetsize
         for(int j=0; j<fasta->fasta_len; j++) { //Save bwt
             //TODO We can change this to compress, but not nesasary
             fprintf(processFile, "%d,", SAs[i][j] ? fasta->fasta_sequence[SAs[i][j]-1] : 0);
@@ -121,7 +110,7 @@ void processFastas(FILE* processFile, struct FastaContainer* fastaContainer, int
 
         for(int j=0; j<128; j++) {
             //TODO do in parser
-            if(fasta->alphabet->symbols[j]) fprintf(processFile, "%c", j);
+            if(fasta->alphabet.symbols[j]) fprintf(processFile, "%c", j);
         }
         fprintf(processFile, "\n");
 
@@ -210,9 +199,5 @@ void readFromProcessed(char *processString, char* readString) {
         free(O);
         free(C);
         free(sa);
-        free(bwt);
     }
-    free(saRange);
-    freeReadContainer(read_container);
-    free(read_container);
 }

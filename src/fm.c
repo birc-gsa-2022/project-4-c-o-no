@@ -24,21 +24,20 @@ int main(int argc, char const *argv[])
 
     if (strcmp("-p", argv[1]) == 0)
     {
-        //preprocessing
-        char* fastaStr = read_file(argv[2]);
+        // preprocessing
+        //printf("Preprocessing genome %s\n", argv[2]);
+        char* fasta_str = read_file(argv[2]);
         char* processFileName = get_file_name_by_fa(argv[2]);
         FILE* processFile = get_file(processFileName);
         free(processFileName);
-        struct FastaContainer* fastaContainer = parse_fasta(fastaStr);
+        char* fasta_str_start = fasta_str;
+        struct FastaContainer* fastaContainer = parse_fasta(fasta_str);
         int** SAs = constructMultipleSARadix(fastaContainer);
         processFastas(processFile, fastaContainer, SAs);
         fclose(processFile);
-        for(int i=0; i<fastaContainer->numberOfFastas; i++) {
-            free(SAs[i]);
-        }
-        free(SAs);
         free_fasta_container(fastaContainer);
-        free(fastaStr);
+        free(SAs);
+        free(fasta_str_start);
     }
     else
     {
