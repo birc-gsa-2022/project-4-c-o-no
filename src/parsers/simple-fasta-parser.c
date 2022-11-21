@@ -6,8 +6,6 @@
 #define LPA 128 // Last printable ascii
 #define FPA 32 // First printable ascii
 
-int magic_number = 8000;
-
 int *alloc_sightings(int *bigAlphabet, int alphabetSize) {
     int *sight = malloc(alphabetSize * sizeof *sight);
     sight[0] = 1;
@@ -94,9 +92,14 @@ void update_fasta_by_sequence(char **strptr, struct Fasta *f) {
 
 
 struct FastaContainer *parse_fasta(char *fasta_str) {
-    struct Fasta **fastas = malloc(magic_number*sizeof (**fastas));
+    int listSize = 1;
+    struct Fasta **fastas = malloc(listSize*sizeof (*fastas));
     int i = 0;
     while (fasta_str[0] != '\0') {
+        if(i>=listSize) {
+            listSize <<= 1;
+            fastas = realloc(fastas, listSize*sizeof (*fastas));
+        }
         char *header = read_fasta_head(&fasta_str);
         struct Fasta *f = malloc(sizeof(*f));
         f->fasta_head = header;
