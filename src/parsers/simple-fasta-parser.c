@@ -6,6 +6,7 @@
 #define LPA 128 // Last printable ascii
 #define FPA 32 // First printable ascii
 
+
 int *alloc_sightings(int *bigAlphabet, int alphabetSize) {
     int *sight = malloc(alphabetSize * sizeof *sight);
     sight[0] = 1;
@@ -47,7 +48,7 @@ char *read_fasta_head(char **strptr) {
 
 void update_fasta_by_sequence(char **strptr, struct Fasta *f) {
     // Space for all printable ascii chars, where each entry corresponds to how many times we've seen a character
-    int *bigAlphabet = calloc(LPA, sizeof(int));
+    int *bigAlphabet = calloc(LPA, sizeof(*bigAlphabet));
     // alphabetSize is for example 5 for ACGT (+1 for sentinel)
     int alphabetSize = 1;
 
