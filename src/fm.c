@@ -5,7 +5,6 @@
 #include "sa.h"
 #include "helper.h"
 #include "parsers/simple-fasta-parser.h"
-#include "parsers/simple-fastq-parser.h"
 
 
 int main(int argc, char const *argv[])
@@ -30,14 +29,14 @@ int main(int argc, char const *argv[])
         char* processFileName = get_file_name_by_fa(argv[2]);
         FILE* processFile = get_file(processFileName);
         free(processFileName);
-        char* fasta_str_start = fasta_str;
+        //char* fasta_str_start = fasta_str;
         struct FastaContainer* fastaContainer = parse_fasta(fasta_str);
         int** SAs = constructMultipleSARadix(fastaContainer);
         processFastas(processFile, fastaContainer, SAs);
         fclose(processFile);
         free_fasta_container(fastaContainer);
         free(SAs);
-        free(fasta_str_start);
+        //free(fasta_str_start);
     }
     else
     {
