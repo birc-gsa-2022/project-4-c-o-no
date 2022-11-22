@@ -114,10 +114,24 @@ struct FastaContainer *parse_fasta(char *fasta_str) {
     return fastaCont;
 }
 
+void freeAlphabet(struct Alphabet a) {
+    free(a.symbols);
+    free(a.sightings);
+}
+
+void freeFasta(struct Fasta *fasta) {
+    //Head and sequence can't be freed, since they are not malloced, but pointers to other strings
+    //free(fasta->fasta_head);
+    //free(fasta->fasta_sequence);
+    free(fasta->fasta_sequence_debugger);
+    freeAlphabet(fasta->alphabet);
+}
+
 void free_fastas(struct Fasta **fastas, int count) {
     for (int i = 0; i < count; ++i) {
-        free(fastas[i]->alphabet.symbols);
-        free(fastas[i]->alphabet.sightings);
+        freeFasta(fastas[i]);
+        //free(fastas[i]->alphabet.symbols);
+        //free(fastas[i]->alphabet.sightings);
         free(fastas[i]);
     }
 }

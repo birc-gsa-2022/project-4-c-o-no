@@ -93,6 +93,7 @@ struct ReadContainer* makeReadContainer(char* readString) {
 
 
 void processFastas(FILE* processFile, struct FastaContainer* fastaContainer, int** SAs) {
+    //TODO make binary file instead of txt
     for(int i=0; i<fastaContainer->numberOfFastas; i++) {
         struct Fasta* fasta = fastaContainer->fastas[i];
         fprintf(processFile, "%s\n", fasta->fasta_head); //Save head
