@@ -5,6 +5,8 @@
 #include "sa.h"
 #include "helper.h"
 #include "parsers/simple-fasta-parser.h"
+#include "parsers/simple-fastq-parser.h"
+
 
 int main(int argc, char const *argv[])
 {
@@ -24,17 +26,18 @@ int main(int argc, char const *argv[])
     {
         // preprocessing
         //printf("Preprocessing genome %s\n", argv[2]);
-        char* fastaStr = read_file(argv[2]);
+        char* fasta_str = read_file(argv[2]);
         char* processFileName = get_file_name_by_fa(argv[2]);
         FILE* processFile = get_file(processFileName);
         free(processFileName);
-        struct FastaContainer* fastaContainer = parse_fasta(fastaStr);
-        free(fastaStr);
+        char* fasta_str_start = fasta_str;
+        struct FastaContainer* fastaContainer = parse_fasta(fasta_str);
         int** SAs = constructMultipleSARadix(fastaContainer);
         processFastas(processFile, fastaContainer, SAs);
         fclose(processFile);
         free_fasta_container(fastaContainer);
         free(SAs);
+        free(fasta_str_start);
     }
     else
     {
