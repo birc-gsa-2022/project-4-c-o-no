@@ -1,5 +1,4 @@
 #include "minunit.h"
-//#include "../src/parsers/simple-fasta-parser.h"
 #include "../src/sa.h"
 #include "../src/helper.h"
 #include "testHelper.h"
@@ -45,7 +44,7 @@ MU_TEST(test_search_multiple_sa_constr) {
     mu_assert_int_eq(2, fastasContainer->numberOfFastas);
     int** sa = constructMultipleSARadix(fastasContainer);
 
-    int *sa1 = malloc(11*sizeof *sa1);
+    int *sa1 = malloc(12*sizeof *sa1);
     sa1[0] = 11;
     sa1[1] = 10;
     sa1[2] = 10-3;
@@ -59,7 +58,7 @@ MU_TEST(test_search_multiple_sa_constr) {
     sa1[10] = 5;
     sa1[11] = 2;
 
-    int *sa2 = malloc(22*sizeof *sa2);
+    int *sa2 = malloc(23*sizeof *sa2);
     sa2[0] = 22;
     sa2[1] = 21;
     sa2[2] = 10;
